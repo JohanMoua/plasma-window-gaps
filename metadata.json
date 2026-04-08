@@ -1,0 +1,20 @@
+{
+  "KPlugin": {
+    "Name": "Window Gaps",
+    "Description": "Adds configurable window gaps for KWin on Wayland.",
+    "Icon": "preferences-system-windows",
+    "Authors": [
+      {
+        "Name": "OpenCode"
+      }
+    ],
+    "Id": "plasma-window-gaps",
+    "Version": "1.0.0",
+    "License": "GPL-3.0-or-later"
+  },
+  "X-Plasma-API": "javascript",
+  "X-Plasma-API-Minimum-Version": "6.0",
+  "X-Plasma-MainScript": "code/main.js",
+  "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted",
+  "KPackageStructure": "KWin/Script"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "plasma-window-gaps",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
