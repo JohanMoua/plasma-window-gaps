@@ -177,20 +177,25 @@ function applyWindowGaps(window, referenceGap) {
     }
 
     var gap = readGapSize();
+    var previousGap = typeof referenceGap === "number" ? referenceGap : knownGapSize;
     var currentGeometry = roundedGeometry(window.frameGeometry);
     var targetGeometry = null;
-    var previousGap = typeof referenceGap === "number" ? referenceGap : knownGapSize;
 
     updatingWindows.add(window);
 
     try {
-        if (isFullyMaximized(window)) {
-            targetGeometry = targetGeometryForMaximized(window, gap);
-        } else if (ensureTilePadding(window, gap)) {
+        // 1️⃣ Tiled / snapped windows
+        if (ensureTilePadding(window, gap)) {
             return;
+        }
+
+        // 2️⃣ Maximized windows
+        if (isFullyMaximized(window)) {
+            // Always apply maximized-gap geometry for maximized windows
+            targetGeometry = targetGeometryForMaximized(window, gap);
         } else {
-            var screen = workspace.clientArea(KWin.MaximizeArea, window);
-            targetGeometry = geometry.targetGeometryForFloating(window.frameGeometry, screen, gap, previousGap);
+            // Floating / normal windows are ignored
+            return;
         }
 
         if (!targetGeometry) {
@@ -248,15 +253,15 @@ function connectWindow(window) {
         applyWindowGaps(window);
     });
 
-    window.moveResizedChanged.connect(function () {
-        if (window.move === false && window.resize === false) {
-            applyWindowGaps(window);
-        }
-    });
-
     window.tileChanged.connect(function () {
         applyWindowGaps(window);
     });
+
+    if (window.quickTileModeChanged) {
+        window.quickTileModeChanged.connect(function () {
+            applyWindowGaps(window);
+        });
+    }
 
     applyWindowGaps(window);
 }
