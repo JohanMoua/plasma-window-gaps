@@ -3,4 +3,4 @@ set -e
 
 kpackagetool6 --type=KWin/Script --install . || kpackagetool6 --type=KWin/Script --upgrade .
 kwriteconfig6 --file kwinrc --group Plugins --key plasma-window-gapsEnabled true
-qdbus6 org.kde.KWin /KWin reconfigure
+qdbus-qt6 org.kde.KWin /KWin reconfigure
